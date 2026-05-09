@@ -133,7 +133,7 @@ export default function SetupPage() {
         {/* Logo */}
         <div className="flex flex-col items-center gap-3">
           <HallwayLogo className="text-3xl" />
-          <h1 className="text-3xl tracking-tight font-display text-center mt-2">
+          <h1 className="font-display text-3xl tracking-tight font-display text-center mt-2">
             Complete Your <span className="text-primary">Profile</span>
           </h1>
           <p className="text-center text-sm text-muted-foreground">

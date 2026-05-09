@@ -41,7 +41,7 @@ export function Safety() {
               <ShieldCheck className="size-3.5 text-primary" />
               Trust &amp; Safety
             </div>
-            <h2 className="mt-4 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+            <h2 className="font-display mt-4 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
               Your safety matters more than the next match.
             </h2>
             <p className="mt-5 text-pretty leading-relaxed text-muted-foreground">
@@ -78,7 +78,7 @@ export function Safety() {
                     <span className="inline-flex size-10 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-inset ring-primary/20">
                       <Icon className="size-5" aria-hidden />
                     </span>
-                    <h3 className="mt-4 text-base font-semibold text-foreground">
+                    <h3 className="font-display mt-4 text-base font-semibold text-foreground">
                       {p.title}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

@@ -81,7 +81,7 @@ export function AuthScreen() {
       <div className="mx-auto flex w-full max-w-sm flex-col items-center gap-8 z-10">
         <div className="flex flex-col items-center gap-3">
           <HallwayIcon size={64} />
-          <h1 className="text-4xl font-bold tracking-tight font-display mt-2 text-center leading-tight">
+          <h1 className="font-display text-4xl font-bold tracking-tight mt-2 text-center leading-tight">
             Verified <span className="text-primary">Entry</span>
           </h1>
           <p className="text-center text-sm text-muted-foreground">

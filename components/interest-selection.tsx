@@ -177,7 +177,7 @@ export function InterestSelection({ onStart, user, onSignOut }: InterestSelectio
       <main className="mx-auto max-w-4xl px-6 py-16 flex flex-col flex-1 z-10 w-full">
         {/* Heading */}
         <div className="mb-12">
-          <h1 className="text-4xl sm:text-5xl tracking-tight font-display">What are you into?</h1>
+          <h1 className="font-display text-4xl sm:text-5xl tracking-tight font-display">What are you into?</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-2xl">
             Select your interests to find students who share your vibe. Matches are better when you have things in common.
           </p>
@@ -215,12 +215,12 @@ export function InterestSelection({ onStart, user, onSignOut }: InterestSelectio
         {/* CTA */}
         <div className="flex flex-col gap-4 sm:flex-row">
           <button onClick={() => onStart(selected)}
-            className="flex h-14 flex-1 items-center justify-center gap-2 rounded-2xl px-10 py-3.5 text-sm font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition hover:bg-primary/90 hover:scale-[1.02] active:scale-95 cursor-pointer">
+            className="flex h-14 flex-1 items-center justify-center gap-2 rounded-2xl px-10 py-3.5 text-sm font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-all duration-300 hover:bg-primary/90 hover:scale-[1.02] hover:shadow-primary/30 active:scale-95 cursor-pointer">
             Start Chatting
             <ArrowRight className="h-5 w-5" />
           </button>
           <button onClick={() => onStart([])}
-            className="flex h-14 px-8 items-center justify-center gap-2 rounded-2xl border border-border/60 text-muted-foreground hover:bg-card hover:text-foreground transition cursor-pointer">
+            className="flex h-14 px-8 items-center justify-center gap-2 rounded-2xl border border-border/60 text-muted-foreground hover:bg-card hover:text-foreground hover:border-primary/40 hover:scale-[1.02] transition-all duration-300 cursor-pointer">
             Skip — chat randomly
           </button>
         </div>

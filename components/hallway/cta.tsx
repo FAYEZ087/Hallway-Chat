@@ -20,7 +20,7 @@ export function Cta({ onStart }: { onStart: () => void }) {
               <ShieldCheck className="size-3.5 text-primary" />
               Verified students only
             </div>
-            <h2 className="mt-5 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+            <h2 className="font-display mt-5 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
               The next great friend you make is <br className="hidden sm:block" />
               <span className="text-primary">one match away.</span>
             </h2>
@@ -29,14 +29,12 @@ export function Cta({ onStart }: { onStart: () => void }) {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <Button
-                asChild
+                onClick={onStart}
                 size="lg"
-                className="group h-12 rounded-full bg-primary px-7 text-base text-primary-foreground shadow-[0_8px_30px_-8px_rgba(0,200,150,0.6)] hover:bg-primary/90"
+                className="group relative z-10 h-12 rounded-full bg-primary px-8 text-base text-primary-foreground shadow-[0_10px_40px_-10px_rgba(0,200,150,0.5)] transition-all duration-300 hover:shadow-[0_15px_50px_-10px_rgba(0,200,150,0.6)] hover:scale-[1.02] cursor-pointer"
               >
-                <Link href="#">
-                  Start Chatting Free
-                  <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
-                </Link>
+                Start Chatting Free
+                <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Button>
               <p className="text-xs text-muted-foreground">
                 No credit card · No app store · Works on phone &amp; laptop

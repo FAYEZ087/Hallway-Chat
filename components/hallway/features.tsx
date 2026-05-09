@@ -46,7 +46,7 @@ export function Features() {
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
             Features
           </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          <h2 className="font-display mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             Designed for the student experience
           </h2>
           <p className="mt-4 text-pretty text-muted-foreground">
@@ -75,7 +75,7 @@ function FeatureCard({
 }) {
   const Icon = feature.icon
   return (
-    <article className="group relative flex h-full flex-col gap-4 rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur transition-colors hover:border-primary/40 hover:bg-card/70">
+    <article className="group relative flex h-full flex-col gap-4 rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-card/70 hover:shadow-xl hover:shadow-primary/5">
       <div className="flex items-center justify-between">
         <span className="inline-flex size-10 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-inset ring-primary/20 transition-transform group-hover:scale-105">
           <Icon className="size-5" aria-hidden />
@@ -85,7 +85,7 @@ function FeatureCard({
         </span>
       </div>
       <div className="flex flex-col gap-2">
-        <h3 className="text-lg font-semibold tracking-tight text-foreground">
+        <h3 className="font-display text-lg font-semibold tracking-tight text-foreground">
           {feature.title}
         </h3>
         <p className="text-sm leading-relaxed text-muted-foreground">

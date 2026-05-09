@@ -43,7 +43,7 @@ export function Testimonials() {
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
             Real students, real stories
           </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          <h2 className="font-display mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             Why students love Hallway
           </h2>
         </div>
@@ -60,7 +60,7 @@ export function Testimonials() {
 
 function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
   return (
-    <figure className="relative flex h-full flex-col gap-6 rounded-2xl border border-border/60 bg-background/50 p-6 backdrop-blur md:p-7">
+    <figure className="relative flex h-full flex-col gap-6 rounded-2xl border border-border/60 bg-background/50 p-6 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-card/70 hover:shadow-xl hover:shadow-primary/5 md:p-7">
       <Quote
         className="size-6 text-primary/70"
         aria-hidden

@@ -51,7 +51,7 @@ export function WhoFor() {
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
             Built for you
           </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          <h2 className="font-display mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             Who is Hallway for?
           </h2>
           <p className="mt-4 text-pretty text-muted-foreground">
@@ -66,14 +66,14 @@ export function WhoFor() {
             return (
               <article
                 key={p.title}
-                className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur transition-colors hover:border-primary/40"
+                className="group relative overflow-hidden rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-card/70 hover:shadow-xl hover:shadow-primary/5"
               >
                 <div className="flex items-start gap-4">
                   <span className="inline-flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-inset ring-primary/20">
                     <Icon className="size-5" aria-hidden />
                   </span>
                   <div className="min-w-0">
-                    <h3 className="text-base font-semibold text-foreground">
+                    <h3 className="font-display text-base font-semibold text-foreground">
                       {p.title}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

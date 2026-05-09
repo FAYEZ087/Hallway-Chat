@@ -33,7 +33,7 @@ export function HowItWorks() {
           <p className="text-xs font-medium uppercase tracking-[0.18em] text-primary">
             How it works
           </p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
+          <h2 className="font-display mt-3 text-balance text-3xl font-semibold tracking-tight sm:text-4xl md:text-5xl">
             From signup to your first hello in 60 seconds
           </h2>
         </div>
@@ -49,7 +49,7 @@ export function HowItWorks() {
               return (
                 <li
                   key={step.title}
-                  className="relative flex flex-col items-start gap-4 rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur"
+                  className="group relative flex flex-col items-start gap-4 rounded-2xl border border-border/60 bg-card/40 p-6 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:bg-card/70 hover:shadow-xl hover:shadow-primary/5"
                 >
                   <div className="flex w-full items-center justify-between">
                     <span className="inline-flex size-12 items-center justify-center rounded-xl bg-primary/15 text-primary ring-1 ring-inset ring-primary/20">
@@ -60,7 +60,7 @@ export function HowItWorks() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground">
+                    <h3 className="font-display text-lg font-semibold text-foreground">
                       {step.title}
                     </h3>
                     <p className="mt-2 text-sm leading-relaxed text-muted-foreground">

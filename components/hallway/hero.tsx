@@ -27,7 +27,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
             </span>
           </div>
 
-          <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="font-display mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             Meet students who share{" "}
             <span className="text-primary">your vibe.</span>
           </h1>
@@ -42,7 +42,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
             <Button
               onClick={onStart}
               size="lg"
-              className="group h-12 rounded-full bg-primary px-7 text-base text-primary-foreground shadow-[0_8px_30px_-8px_rgba(0,200,150,0.6)] hover:bg-primary/90 cursor-pointer"
+              className="group h-12 rounded-full bg-primary px-7 text-base text-primary-foreground shadow-[0_8px_30px_-8px_rgba(0,200,150,0.6)] transition-all duration-300 hover:bg-primary/90 hover:scale-[1.02] hover:shadow-[0_12px_40px_-8px_rgba(0,200,150,0.7)] cursor-pointer"
             >
               Start Chatting Free
               <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
@@ -51,7 +51,7 @@ export function Hero({ onStart }: { onStart: () => void }) {
               asChild
               variant="ghost"
               size="lg"
-              className="h-12 rounded-full px-5 text-base text-foreground hover:bg-card"
+              className="h-12 rounded-full px-5 text-base text-foreground transition-all duration-300 hover:bg-card hover:scale-[1.02]"
             >
               <Link href="#how-it-works">See how it works</Link>
             </Button>
@@ -217,11 +217,11 @@ function ControlButton({
   variant?: "ghost" | "primary"
 }) {
   const base =
-    "inline-flex h-9 items-center justify-center gap-1.5 rounded-full px-3 text-sm transition-colors"
+    "inline-flex h-9 items-center justify-center gap-1.5 rounded-full px-3 text-sm transition-all duration-300 hover:scale-105"
   const variants = {
-    ghost: "border border-border/60 text-foreground hover:bg-card",
+    ghost: "border border-border/60 text-foreground hover:bg-card hover:border-primary/20",
     primary:
-      "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_4px_14px_-4px_rgba(0,200,150,0.5)]",
+      "bg-primary text-primary-foreground hover:bg-primary/90 shadow-[0_4px_14px_-4px_rgba(0,200,150,0.5)] hover:shadow-[0_6px_20px_-4px_rgba(0,200,150,0.6)]",
   }
   return (
     <button

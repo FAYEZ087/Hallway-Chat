@@ -58,5 +58,8 @@ export default function Home() {
   }, [router])
 
   if (screen === "auth") return <AuthScreen />
-  return <LandingPage onGetStarted={() => setScreen("auth")} />
+  return <LandingPage onGetStarted={() => {
+    window.scrollTo({ top: 0, behavior: "instant" })
+    setScreen("auth")
+  }} />
 }
