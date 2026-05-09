@@ -15,7 +15,8 @@ export interface LiveStats {
 const getSocketUrl = () => {
   const url = process.env.NEXT_PUBLIC_SOCKET_URL?.trim()
   if (!url) {
-    throw new Error("NEXT_PUBLIC_SOCKET_URL environment variable is missing. Please check your .env.local or production environment variables.")
+    console.warn("NEXT_PUBLIC_SOCKET_URL environment variable is missing. Real-time features will be disabled.")
+    return ""
   }
   return url.replace(/\/+$/, "")
 }
