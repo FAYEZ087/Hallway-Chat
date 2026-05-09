@@ -4,36 +4,9 @@ import { useState, useRef, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Upload, User, Loader2, Camera } from "lucide-react"
-
-function HallwayIcon({ size = 64 }: { size?: number }) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width={size} height={size} fill="none">
-      <defs>
-        <radialGradient id="bgGrad-setup" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#1a1a1a" />
-          <stop offset="100%" stopColor="#0d0d0d" />
-        </radialGradient>
-      </defs>
-      <rect width="100" height="100" rx="50" fill="url(#bgGrad-setup)" />
-      <rect width="100" height="100" rx="50" fill="none" stroke="#222222" strokeWidth="1" />
-      <polygon points="0,0 0,100 26,78 26,22" fill="#181818" />
-      <polygon points="100,0 100,100 74,78 74,22" fill="#202020" />
-      <polygon points="0,0 100,0 74,22 26,22" fill="#161616" />
-      <polygon points="0,100 100,100 74,78 26,78" fill="#141414" />
-      <rect x="26" y="22" width="48" height="56" fill="#111111" stroke="#2a2a2a" strokeWidth="1.2" />
-      <line x1="0" y1="0" x2="50" y2="50" stroke="#00c896" strokeWidth="0.8" opacity="0.22" />
-      <line x1="100" y1="0" x2="50" y2="50" stroke="#00c896" strokeWidth="0.8" opacity="0.22" />
-      <line x1="0" y1="100" x2="50" y2="50" stroke="#00c896" strokeWidth="0.8" opacity="0.22" />
-      <line x1="100" y1="100" x2="50" y2="50" stroke="#00c896" strokeWidth="0.8" opacity="0.22" />
-      <ellipse cx="50" cy="50" rx="3.5" ry="4.5" fill="#00c896" opacity="0.5" />
-      <ellipse cx="50" cy="50" rx="1.5" ry="2" fill="#00c896" />
-      <circle cx="50" cy="43" r="3.5" fill="#00c896" />
-      <rect x="47" y="47.5" width="6" height="10" rx="1.5" fill="#00c896" />
-      <rect x="63" y="40" width="9" height="22" rx="1.5" fill="none" stroke="#00c896" strokeWidth="1" opacity="0.45" />
-    </svg>
-  )
-}
+import { ArrowRight, Upload, User, Loader2, Camera, Lock, HeartHandshake } from "lucide-react"
+import { ModeToggle } from "@/components/mode-toggle"
+import { HallwayLogo } from "@/components/hallway/logo"
 
 export default function SetupPage() {
   const router = useRouter()
@@ -141,22 +114,27 @@ export default function SetupPage() {
   if (isLoading) {
     return (
       <div className="flex min-h-dvh items-center justify-center bg-background">
-        <div className="h-8 w-8 animate-spin rounded-full border-2"
-          style={{ borderColor: "#00c896", borderTopColor: "transparent" }} />
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     )
   }
 
   return (
-    <div className="flex min-h-dvh flex-col items-center justify-center bg-background px-4 py-12 relative overflow-hidden">
+    <div className="flex min-h-dvh flex-col items-center justify-center bg-background px-4 py-12 relative overflow-hidden font-sans">
+      {/* Ambient background */}
+      <div className="pointer-events-none absolute inset-0 bg-grid-fade" aria-hidden />
+      
+      <div className="absolute top-4 right-4 z-50">
+        <ModeToggle />
+      </div>
+
       <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 z-10 w-full mb-16">
         
         {/* Logo */}
         <div className="flex flex-col items-center gap-3">
-          <HallwayIcon size={56} />
-          <h1 className="text-3xl tracking-tight font-display">
-            <span className="text-foreground">Complete Your </span>
-            <span style={{ color: "#00c896" }}>Profile</span>
+          <HallwayLogo className="text-3xl" />
+          <h1 className="text-3xl tracking-tight font-display text-center mt-2">
+            Complete Your <span className="text-primary">Profile</span>
           </h1>
           <p className="text-center text-sm text-muted-foreground">
             Let others know who they're chatting with
@@ -164,14 +142,14 @@ export default function SetupPage() {
         </div>
 
         {/* Form */}
-        <div className="flex w-full flex-col gap-5">
+        <div className="flex w-full flex-col gap-5 rounded-3xl border border-border/60 bg-card/60 p-8 backdrop-blur-md shadow-2xl">
           
           {/* Profile Photo */}
           <div className="flex flex-col items-center gap-3">
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="group relative h-24 w-24 rounded-full border-2 border-dashed border-border bg-secondary/50 flex items-center justify-center overflow-hidden transition-all hover:border-[#00c896] hover:bg-secondary"
+              className="group relative h-24 w-24 rounded-full border-2 border-dashed border-border bg-secondary/30 flex items-center justify-center overflow-hidden transition-all hover:border-primary hover:bg-secondary/50 cursor-pointer"
             >
               {photoPreview ? (
                 <>
@@ -181,7 +159,7 @@ export default function SetupPage() {
                   </div>
                 </>
               ) : (
-                <div className="flex flex-col items-center gap-1 text-muted-foreground group-hover:text-[#00c896] transition-colors">
+                <div className="flex flex-col items-center gap-1 text-muted-foreground group-hover:text-primary transition-colors">
                   <Upload className="h-6 w-6" />
                   <span className="text-xs">Upload</span>
                 </div>
@@ -194,12 +172,12 @@ export default function SetupPage() {
               onChange={handlePhotoSelect}
               className="hidden"
             />
-            <p className="text-xs text-muted-foreground">Profile photo (optional)</p>
+            <p className="text-[10px] uppercase tracking-wider font-semibold text-muted-foreground">Profile photo (optional)</p>
           </div>
 
           {/* Real Name */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Real Name
             </label>
             <div className="relative">
@@ -209,15 +187,14 @@ export default function SetupPage() {
                 value={realName}
                 onChange={(e) => setRealName(e.target.value)}
                 placeholder="Your full name"
-                className="w-full rounded-xl border border-border bg-secondary pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all"
-                style={{ "--tw-ring-color": "#00c896" } as React.CSSProperties}
+                className="w-full rounded-xl border border-border bg-background/50 pl-10 pr-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
               />
             </div>
           </div>
 
           {/* Display Name */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               Display Name
             </label>
             <input
@@ -225,17 +202,16 @@ export default function SetupPage() {
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
               placeholder="Nickname shown to others"
-              className="w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all"
-              style={{ "--tw-ring-color": "#00c896" } as React.CSSProperties}
+              className="w-full rounded-xl border border-border bg-background/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-[10px] text-muted-foreground">
               This is what other users will see
             </p>
           </div>
 
           {/* College */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-foreground">
+            <label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
               College / University
             </label>
             <input
@@ -243,8 +219,7 @@ export default function SetupPage() {
               value={college}
               onChange={(e) => setCollege(e.target.value)}
               placeholder="e.g., KIIT University"
-              className="w-full rounded-xl border border-border bg-secondary px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 transition-all"
-              style={{ "--tw-ring-color": "#00c896" } as React.CSSProperties}
+              className="w-full rounded-xl border border-border bg-background/50 px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 transition-all"
             />
           </div>
 
@@ -259,8 +234,7 @@ export default function SetupPage() {
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting || !realName.trim() || !displayName.trim() || !college.trim()}
-            className="h-12 w-full gap-2 rounded-xl font-semibold text-black transition-all disabled:opacity-50"
-            style={{ background: "#00c896" }}
+            className="group h-12 w-full gap-2 rounded-xl font-bold bg-primary text-primary-foreground shadow-lg shadow-primary/20 transition-all hover:bg-primary/90 disabled:opacity-50 cursor-pointer"
           >
             {isSubmitting ? (
               <>
@@ -270,25 +244,28 @@ export default function SetupPage() {
             ) : (
               <>
                 Continue to Hallway
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </>
             )}
           </Button>
         </div>
 
-        {/* Footer */}
-        <p className="text-center text-xs text-muted-foreground mb-4">
-          Your real name is only visible to you 🔒
+        {/* Footer info */}
+        <p className="text-center text-[10px] font-medium text-muted-foreground/60 mb-4 flex items-center gap-1.5">
+          <Lock className="h-3 w-3" />
+          Your real name is only visible to you
         </p>
       </div>
 
-      {/* Bottom Footer */}
-      <div className="absolute bottom-0 w-full flex-col sm:flex-row flex items-center justify-center gap-6 sm:gap-12 border-t border-border/10 bg-black/20 py-6 text-xs text-foreground/50 text-center">
-        <p>© {new Date().getFullYear()} hallway. All rights reserved.</p>
-        <p className="flex items-center gap-1">
-          Made with <span className="text-destructive inline-block">❤️</span> by <a href="https://github.com/FAYEZ087" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors font-medium">Fayez</a>
-        </p>
-      </div>
+      {/* Bottom Footer Row */}
+      <footer className="absolute bottom-0 w-full border-t border-border/40 bg-card/40 py-6 backdrop-blur-md">
+        <div className="mx-auto flex max-w-7xl flex-col items-center justify-center gap-6 px-4 sm:flex-row sm:gap-12 text-[10px] font-medium text-muted-foreground uppercase tracking-widest text-center">
+          <p>© {new Date().getFullYear()} hallway. All rights reserved.</p>
+          <p className="flex items-center gap-1">
+            Made with <HeartHandshake className="h-3 w-3 text-destructive" /> by <a href="https://github.com/FAYEZ087" target="_blank" rel="noopener noreferrer" className="hover:text-primary transition-colors">Fayez</a>
+          </p>
+        </div>
+      </footer>
     </div>
   )
 }

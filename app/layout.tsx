@@ -30,15 +30,24 @@ export const viewport: Viewport = {
   userScalable: false,
 }
 
+import { ThemeProvider } from '@/components/theme-provider'
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning className={`${dealingFont.variable} ${dmSans.variable} ${_inter.variable} ${_spaceMono.variable} font-sans antialiased`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${dealingFont.variable} ${dmSans.variable} ${_inter.variable} ${_spaceMono.variable} font-sans antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="dark"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -36,6 +36,7 @@ yarn-error.log*
 *.p12
 *.pfx
 certificates/
+/app/_test/
 
 # IDEs
 .vscode/

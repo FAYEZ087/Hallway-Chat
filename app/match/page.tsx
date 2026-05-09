@@ -12,7 +12,6 @@ export default function MatchPage() {
   const [screen, setScreen] = useState<"loading" | "interests" | "chat">("loading")
   const [selectedInterests, setSelectedInterests] = useState<string[]>([])
   const [user, setUser] = useState<User | null>(null)
-  const [darkMode, setDarkMode] = useState(true)
 
   useEffect(() => {
     const supabase = createClient()
@@ -44,14 +43,6 @@ export default function MatchPage() {
     checkAuth()
   }, [router])
 
-  useEffect(() => {
-    if (darkMode) {
-      document.documentElement.classList.add("dark")
-    } else {
-      document.documentElement.classList.remove("dark")
-    }
-  }, [darkMode])
-
   async function handleSignOut() {
     const supabase = createClient()
     await supabase.auth.signOut()
@@ -70,9 +61,8 @@ export default function MatchPage() {
 
   if (screen === "loading") {
     return (
-      <div className="flex min-h-dvh items-center justify-center bg-[#141929]">
-        <div className="h-8 w-8 animate-spin rounded-full border-2"
-          style={{ borderColor: "#00c896", borderTopColor: "transparent" }} />
+      <div className="flex min-h-dvh items-center justify-center bg-background">
+        <div className="h-8 w-8 animate-spin rounded-full border-2 border-primary border-t-transparent" />
       </div>
     )
   }
@@ -82,8 +72,6 @@ export default function MatchPage() {
       <ChatRoom 
         interests={selectedInterests} 
         onExit={handleExit} 
-        darkMode={darkMode} 
-        setDarkMode={setDarkMode} 
       />
     )
   }
@@ -93,8 +81,6 @@ export default function MatchPage() {
       onStart={handleStart} 
       user={user} 
       onSignOut={handleSignOut} 
-      darkMode={darkMode} 
-      setDarkMode={setDarkMode} 
     />
   )
 }

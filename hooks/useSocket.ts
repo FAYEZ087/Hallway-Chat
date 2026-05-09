@@ -12,20 +12,29 @@ export interface LiveStats {
   matchesToday: number
 }
 
-const configuredSocketUrl = process.env.NEXT_PUBLIC_SOCKET_URL?.trim()
-export const SERVER_URL = configuredSocketUrl
-  ? configuredSocketUrl.replace(/\/+$/, "")
-  : "https://campuslink-server-1.onrender.com"
+const getSocketUrl = () => {
+  const url = process.env.NEXT_PUBLIC_SOCKET_URL?.trim()
+  if (!url) {
+    throw new Error("NEXT_PUBLIC_SOCKET_URL environment variable is missing. Please check your .env.local or production environment variables.")
+  }
+  return url.replace(/\/+$/, "")
+}
+
+// Re-export SERVER_URL for other hooks/components like useLiveStats
+export const SERVER_URL = typeof window !== "undefined" ? getSocketUrl() : ""
 
 export function useSocket(interests: string[]) {
   const socketRef = useRef<Socket | null>(null)
   const peerRef = useRef<RTCPeerConnection | null>(null)
+  const dataChannelRef = useRef<RTCDataChannel | null>(null)
   const iceCandidateQueue = useRef<RTCIceCandidate[]>([])
   const iceConfigRef = useRef<RTCConfiguration | null>(null)
 
   const [status, setStatus] = useState<MatchStatus>("idle")
   const [onlineCount, setOnlineCount] = useState(0)
   const [messages, setMessages] = useState<{ text: string; self: boolean }[]>([])
+  const [code, setCode] = useState<string>("// Start coding here...")
+  const [whiteboardUpdate, setWhiteboardUpdate] = useState<any>(null)
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null)
   const [localStream, setLocalStream] = useState<MediaStream | null>(null)
   const localStreamRef = useRef<MediaStream | null>(null)
@@ -34,6 +43,7 @@ export function useSocket(interests: string[]) {
 
   const fetchIceConfig = useCallback(async (): Promise<RTCConfiguration> => {
     if (iceConfigRef.current) return iceConfigRef.current
+    if (!SERVER_URL) return { iceServers: [{ urls: "stun:stun.l.google.com:19302" }] }
     try {
       const res = await fetch(`${SERVER_URL}/ice-config`)
       const config = await res.json()
@@ -54,6 +64,24 @@ export function useSocket(interests: string[]) {
     peer.ontrack = (event) => {
       console.log("🎥 GOT REMOTE STREAM!", event.streams[0])
       setRemoteStream(event.streams[0])
+    }
+
+    peer.ondatachannel = (event) => {
+      console.log("📡 GOT DATA CHANNEL!")
+      const channel = event.channel
+      channel.onmessage = (e) => {
+        try {
+          const data = JSON.parse(e.data)
+          if (data.type === "code-update") {
+            setCode(data.code)
+          } else if (data.type === "whiteboard-update") {
+            setWhiteboardUpdate(data.data)
+          }
+        } catch (err) {
+          console.error("Data channel parse error", err)
+        }
+      }
+      dataChannelRef.current = channel
     }
 
     peer.onicecandidate = (event) => {
@@ -166,6 +194,19 @@ export function useSocket(interests: string[]) {
     setMessages((prev) => [...prev, { text, self: true }])
   }, [])
 
+  const updateCode = useCallback((newCode: string) => {
+    setCode(newCode)
+    if (dataChannelRef.current && dataChannelRef.current.readyState === "open") {
+      dataChannelRef.current.send(JSON.stringify({ type: "code-update", code: newCode }))
+    }
+  }, [])
+
+  const sendWhiteboardUpdate = useCallback((data: any) => {
+    if (dataChannelRef.current && dataChannelRef.current.readyState === "open") {
+      dataChannelRef.current.send(JSON.stringify({ type: "whiteboard-update", data }))
+    }
+  }, [])
+
   const report = useCallback((reason: string) => {
     if (!socketRef.current) return
     socketRef.current.emit("report", { reason })
@@ -173,6 +214,8 @@ export function useSocket(interests: string[]) {
   }, [next])
 
   useEffect(() => {
+    if (!SERVER_URL) return
+
     fetchIceConfig()
 
     const socket = io(SERVER_URL)
@@ -186,6 +229,8 @@ export function useSocket(interests: string[]) {
       partnerIdRef.current = partnerId
       iceCandidateQueue.current = []
       setStatus("connected")
+      setCode("// Start coding here...")
+      setWhiteboardUpdate({ type: "clear" })
       setMessages([{
         text: sharedInterests > 0
           ? `Connected! You share ${sharedInterests} interest${sharedInterests > 1 ? "s" : ""} 🎉`
@@ -194,6 +239,21 @@ export function useSocket(interests: string[]) {
       }])
 
       if (peerRef.current && isInitiator) {
+        const channel = peerRef.current.createDataChannel("collaboration")
+        channel.onmessage = (e) => {
+          try {
+            const data = JSON.parse(e.data)
+            if (data.type === "code-update") {
+              setCode(data.code)
+            } else if (data.type === "whiteboard-update") {
+              setWhiteboardUpdate(data.data)
+            }
+          } catch (err) {
+            console.error("Data channel parse error", err)
+          }
+        }
+        dataChannelRef.current = channel
+
         const offer = await peerRef.current.createOffer()
         await peerRef.current.setLocalDescription(offer)
         socket.emit("webrtc-offer", { offer, to: partnerId })
@@ -254,11 +314,11 @@ export function useSocket(interests: string[]) {
       peerRef.current?.close()
       localStreamRef.current?.getTracks().forEach((t) => t.stop())
     }
-  }, [])
+  }, [fetchIceConfig, createPeer, interests])
 
   return {
-    status, onlineCount, messages, localStream,
+    status, onlineCount, messages, localStream, code, whiteboardUpdate,
     remoteStream, findMatch, next, sendMessage, report,
-    switchCamera, facingMode,
+    switchCamera, facingMode, updateCode, sendWhiteboardUpdate
   }
 }
